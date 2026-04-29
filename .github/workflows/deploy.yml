@@ -1,4 +1,4 @@
-name: Deploy Quartz site to GitHub Pages
+name: Deploy Quartz site to GitHub Pages and Aliyun OSS
 
 on:
   push:
@@ -28,10 +28,21 @@ jobs:
         run: npm ci
       - name: Build Quartz
         run: npx quartz build
-      - name: Upload artifact
+      - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
+      - name: Deploy to Aliyun OSS
+        env:
+          OSS_ENDPOINT: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
+          OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+          OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
+        run: |
+          curl -sL https://gosspublic.alicdn.com/ossutil/1.7.14/ossutil64 -o ossutil
+          chmod +x ossutil
+          ./ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET"
+          ./ossutil sync public/ "oss://$OSS_BUCKET/" --delete --force
 
   deploy:
     needs: build
