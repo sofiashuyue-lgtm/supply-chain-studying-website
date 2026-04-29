@@ -1,3 +1,17 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// Author badge at top of right sidebar (desktop only)
+@media (min-width: 1200px) {
+  .right.sidebar::before {
+    content: "制作者：何舒玥\a更新：2026 年 4 月";
+    white-space: pre-line;
+    display: block;
+    font-size: 0.78em;
+    color: var(--gray);
+    text-align: right;
+    padding-bottom: 0.8em;
+    border-bottom: 1px solid var(--lightgray);
+    margin-bottom: 1.2em;
+    line-height: 1.7;
+  }
+}
