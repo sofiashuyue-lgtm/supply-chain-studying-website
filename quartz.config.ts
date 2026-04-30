@@ -16,7 +16,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "zh-CN",
-    baseUrl: "sofiashuyue-lgtm.github.io/supply-chain-studying-website",
+    baseUrl: "sofialibrary27.me",
     ignorePatterns: ["private", "templates", ".obsidian", "M11-*"],
     defaultDateType: "modified",
     theme: {
